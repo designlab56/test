@@ -1,28 +1,109 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Todo List">
+
+
+  <ion-nav-buttons side="right">
+    <button class="button ion-android-cart" ng-click="viewCart()" style="width:40px">
+    </button>
+    &nbsp;&nbsp;
+    <button class="button ion-android-add" ng-click="createNewTask()" style="width:40px">
+    </button>
+  </ion-nav-buttons>
+
+
   <ion-content class="padding">
-  <button ion-button ng-click="addTask()">New Task</button>
 
-  <br/>
-   <div ng-repeat="x in tasks">
 
-     <button ion-button ng-click="removeTask({{$index+1}})">Remove</button>
-     <span>{{x.labelTask}}</span>&nbsp;&nbsp;<span>{{x.amount}}</span>
+     <ion-list>
+       <ion-item class="item-remove-animate item-avatar item-icon-right"  ng-repeat="x in tasks track by $index" type="item-text-wrap">
+         <h2>{{x.label}}</h2>
+         <p>{{x.amount}}</p>
+         <i class="icon ion-chevron-right icon-accessory"></i>
 
-   </div>
+
+         <ion-option-button class="button-balanced" ng-click="addToCart({{$index}})">
+           Add to cart
+         </ion-option-button>
+         <ion-option-button class="button-positive" ng-click="editExistingTask({{$index}})">
+           Edit
+         </ion-option-button>
+         <ion-option-button class="button-assertive" ng-click="removeTask({{$index}})">
+           Delete
+         </ion-option-button>
+       </ion-item>
+     </ion-list>
+
+
+
    <br/>
 
-    <!--<h2>Welcome to Ionic</h2>
-    <p>
-    This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
-    </p>
-    <p>
-      To edit the content of each tab, edit the corresponding template file in <code>www/templates/</code>. This template is <code>www/templates/tab-dash.html</code>
-    </p>
-    <p>
-    If you need help with your app, join the Ionic Community on the <a href="http://forum.ionicframework.com" target="_blank">Ionic Forum</a>. Make sure to <a href="http://twitter.com/ionicframework" target="_blank">follow us</a> on Twitter to get important updates and announcements for Ionic developers.
-    </p>
-    <p>
-      For help sending push notifications, join the <a href="https://apps.ionic.io/signup" target="_blank">Ionic Platform</a> and check out <a href="http://docs.ionic.io/docs/push-overview" target="_blank">Ionic Push</a>. We also have other services available.
-    </p>-->
+   <script id="templates/modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">New Task Wizard</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            <label class="item item-input">
+              <span class="input-label">Task Name</span>
+              <input id="newLabelID" ng-model="newTask.label" type="text">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Amount</span>
+              <input id="newLabelAmount" ng-model="newTask.amount" type="text">
+            </label>
+            <button class="button button-full button-positive" ng-click="addTask(newTask)"  style="margin-top:50px;width: 100%">Create</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+
+
+    <script id="templates/modal_edit.html" type="text/ng-template">
+       <ion-modal-view>
+         <ion-header-bar class="bar bar-header bar-positive">
+           <h1 class="title">Edit Task</h1>
+           <button class="button button-clear button-primary" ng-click="modal_edit.hide()">Cancel</button>
+         </ion-header-bar>
+         <ion-content class="padding">
+           <div class="list">
+             <label class="item item-input">
+               <span class="input-label">Task Name</span>
+               <input id="editLabelID" ng-model="editLabel" type="text"/>
+             </label>
+             <label class="item item-input">
+               <span class="input-label">Amount</span>
+               <input id="editLabelAmount" ng-model="editAmount" type="text" />
+             </label>
+
+
+
+             <button class="button button-full button-positive" ng-click="editTask()"  style="margin-top:50px;width: 100%">Edit</button>
+           </div>
+         </ion-content>
+       </ion-modal-view>
+     </script>
+
+
+     <script id="templates/view_cart.html" type="text/ng-template">
+        <ion-modal-view>
+          <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">Cart</h1>
+            <button class="button button-clear button-primary" ng-click="view_cart.hide()">Cancel</button>
+          </ion-header-bar>
+          <ion-content class="padding">
+
+            <ion-list>
+              <ion-item class="item-remove-animate item-avatar item-icon-right"  ng-repeat="x in cart track by $index" type="item-text-wrap">
+                <h2>{{x.label}}</h2>
+                <p>{{x.amount}}</p>
+              </ion-item>
+            </ion-list>
+
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+
   </ion-content>
 </ion-view>
